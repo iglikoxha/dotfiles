@@ -32,6 +32,8 @@
     # nice-to-haves
     bat
     fzf
+    tree
+    tmux # terminal multiplexer (config + plugins managed by its own repo via TPM)
 
     # node toolchain
     fnm # runtime node version manager (nvm-style: fnm install/use, reads .nvmrc)
@@ -55,7 +57,10 @@
     settings.init.defaultBranch = "main";
   };
 
-  # tmux config pulled from the remote repo (flake input) into XDG config dir
+  # tmux config pulled verbatim from the remote repo (flake input) into the XDG
+  # config dir. The config is self-contained: it bootstraps TPM and its plugins
+  # on first launch, so it works identically on machines without Nix. Nix only
+  # provides the tmux binary (and git, used by the bootstrap).
   xdg.configFile."tmux/tmux.conf".source = "${tmux-config}/tmux.conf";
 
   # starship prompt — installs starship + wires bash init.
