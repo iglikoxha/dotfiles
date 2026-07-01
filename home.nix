@@ -50,6 +50,7 @@
 
     # infrastructure
     terraform # IaC CLI (unfree: BUSL — allowlisted in flake.nix)
+    awscli2 # `aws` CLI v2
 
     # ai
     claude-code # the `claude` CLI
