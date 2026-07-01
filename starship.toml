@@ -5,6 +5,7 @@
 claude-code = "$claude_model$git_branch$claude_context$claude_cost"
 
 [aws]
+disabled = true   # region indicator eats space and is rarely needed; flip to re-enable
 symbol = " "
 
 [azure]
@@ -252,6 +253,7 @@ symbol = " "
 symbol = " "
 
 [python]
+disabled = true   # built-in module reports the SYSTEM python3; replaced by [custom.uv_python] below
 symbol = " "
 
 [raku]
@@ -307,6 +309,22 @@ symbol = " "
 
 [xmake]
 symbol = " "
+
+# Python version uv resolves for the current dir, not the system python3. Uses
+# `uv python find --show-version`: the version uv would use (from .python-version /
+# requires-python, or an existing .venv) WITHOUT creating or syncing a venv — so it
+# works even before the first `uv sync`. The whole format is wrapped in ( ) so it
+# renders nothing when uv can't resolve a version. Shows via the default $custom slot.
+[custom.venv_python]
+description = "Python version uv resolves for the current project"
+detect_files = ["pyproject.toml", "uv.lock", ".python-version"]
+detect_folders = [".venv"]
+detect_extensions = ["py"]
+shell = ["sh"]
+command = "uv python find --show-version --no-python-downloads 2>/dev/null"
+symbol = " "
+format = '(via [${symbol}v$output \(uv\) ]($style))'
+style = "yellow bold"
 
 [zig]
 symbol = " "

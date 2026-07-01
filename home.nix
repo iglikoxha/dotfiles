@@ -33,6 +33,8 @@
     bat
     fzf
     tree
+
+    # terminal
     tmux # terminal multiplexer (config + plugins managed by its own repo via TPM)
 
     # node toolchain
@@ -45,6 +47,9 @@
     # rust toolchain (Mason builds some tools via `cargo install`)
     cargo
     rustc # cargo shells out to rustc; nixpkgs ships them as separate pkgs
+
+    # infrastructure
+    terraform # IaC CLI (unfree: BUSL — allowlisted in flake.nix)
 
     # ai
     claude-code # the `claude` CLI
