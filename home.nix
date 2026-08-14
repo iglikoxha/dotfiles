@@ -13,31 +13,31 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    # LazyVim core
-    neovim
-    git
-    gcc # C compiler for treesitter & native plugins
-    gnumake # make
+    # everyday basics
     curl
     wget
-
-    # LazyVim Mason required
     unzip
-
-    # LazyVim's expected tools
-    ripgrep # rg  — telescope grep
-    fd # fd  — telescope file find
-    lazygit # <leader>gg
-    tree-sitter # tree-sitter-cli
-
-    # nice-to-haves
-    bat
-    fzf
     tree
     dos2unix # convert CRLF/LF line endings (handy on WSL)
 
+    # modern CLI tools
+    ripgrep # rg — fast grep (telescope's live-grep shells out to it)
+    fd # fast find (telescope's file finder)
+    bat # cat with syntax highlighting
+    fzf # fuzzy finder
+
+    # editor (LazyVim)
+    neovim
+    lazygit # git TUI, bound to <leader>gg in LazyVim
+    tree-sitter # tree-sitter CLI, builds grammars
+
+    # C toolchain — treesitter grammar compiles, Mason/native plugin builds
+    gcc
+    gnumake
+
     # terminal
     tmux # terminal multiplexer (config + plugins managed by its own repo via TPM)
+    mosh # mobile shell — ssh replacement that survives roaming/sleep
 
     # node toolchain
     fnm # runtime node version manager (nvm-style: fnm install/use, reads .nvmrc)
@@ -47,7 +47,7 @@
     (python3.withPackages (ps: [ ps.pip ])) # interpreter + pip on PATH (Mason needs pip; Nix omits it by default)
     uv # python package/venv manager (used for actual python work)
 
-    # rust toolchain (Mason builds some tools via `cargo install`)
+    # rust toolchain
     cargo
     rustc # cargo shells out to rustc; nixpkgs ships them as separate pkgs
 
