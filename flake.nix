@@ -29,12 +29,22 @@
             "terraform"
           ];
       };
+      # one home config per machine username; a bare `home-manager switch
+      # --flake ~/dotfiles` picks the attribute matching $USER automatically
+      # one home config per machine username; a bare `home-manager switch
+      # --flake ~/dotfiles` picks the attribute matching $USER automatically
+      mkHome =
+        username:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ];
+          extraSpecialArgs = { inherit tmux-config username; };
+        };
     in
     {
-      homeConfigurations."igli" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ ./home.nix ];
-        extraSpecialArgs = { inherit tmux-config; };
+      homeConfigurations = {
+        igli = mkHome "igli";
+        dev = mkHome "dev";
       };
     };
 }

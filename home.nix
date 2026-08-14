@@ -2,11 +2,12 @@
   config,
   pkgs,
   tmux-config,
+  username,
   ...
 }:
 {
-  home.username = "igli";
-  home.homeDirectory = "/home/igli";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;
@@ -33,12 +34,14 @@
     bat
     fzf
     tree
+    dos2unix # convert CRLF/LF line endings (handy on WSL)
 
     # terminal
     tmux # terminal multiplexer (config + plugins managed by its own repo via TPM)
 
     # node toolchain
     fnm # runtime node version manager (nvm-style: fnm install/use, reads .nvmrc)
+    pnpm # node package manager (self-contained; project scripts still run on fnm's node)
 
     # python toolchain
     (python3.withPackages (ps: [ ps.pip ])) # interpreter + pip on PATH (Mason needs pip; Nix omits it by default)
