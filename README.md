@@ -63,7 +63,18 @@ if command -v starship >/dev/null 2>&1; then
 fi
 ```
 
-### 5. Install a node version
+### 5. Claude Code status line
+
+The `[statusline]` section in `starship.toml` is managed here, but `~/.claude/settings.json` isn't. Point Claude Code at starship by adding:
+
+```json
+"statusLine": {
+  "type": "command",
+  "command": "starship statusline claude-code"
+}
+```
+
+### 6. Install a node version
 
 fnm ships without any node installed — `node` won't be on PATH until you install one and make it the default (used whenever a project has no `.nvmrc`):
 
