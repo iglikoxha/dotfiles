@@ -1,14 +1,38 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Statusline shown inside Claude Code (`starship statusline claude-code`)
+# Claude Code status line (`starship statusline claude-code`)
 [profiles]
 claude-code = "$claude_model$git_branch$claude_context$claude_cost"
 
+# Context window usage in the Claude Code status line, e.g. "▓▓▓░░░░░░░ 27% 54k/200k".
+# Default hides the module below 30%; these thresholds keep it always visible.
+[claude_context]
+format = "[$gauge $percentage $input_tokens/$total_tokens]($style) "
+gauge_width = 10
+gauge_full_symbol = "▓"
+gauge_partial_symbol = "▓"
+gauge_empty_symbol = "░"
+
+[[claude_context.display]]
+threshold = 0.0
+style = "bold green"
+
+[[claude_context.display]]
+threshold = 60.0
+style = "bold yellow"
+
+[[claude_context.display]]
+threshold = 80.0
+style = "bold red"
+
 [aws]
-disabled = true   # region indicator eats space and is rarely needed; flip to re-enable
+format = '[$symbol($profile )(\($region\) )(\[$duration\] )]($style)' # default prefixes "on "
+disabled = true                                                       # cloud indicators not needed
 symbol = " "
 
 [azure]
+format = "[$symbol($subscription)]($style) " # default prefixes "on "
+disabled = true                              # cloud indicators not needed
 symbol = " "
 
 [battery]
@@ -19,129 +43,177 @@ unknown_symbol = "󰂑 "
 empty_symbol = "󰂎 "
 
 [buf]
+format = "[$symbol($version )]($style)" # default prefixes "with "
 symbol = " "
 
 [bun]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [c]
+format = "[$symbol($version(-$name) )]($style)" # default prefixes "via "
 symbol = " "
 
-[cpp]
-symbol = " "
-
 [cmake]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
+[cmd_duration]
+format = "[$duration]($style) " # default prefixes "took "
+
 [cobol]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [conda]
+format = "[$symbol$environment]($style) " # default prefixes "via "
 symbol = " "
 
 [container]
 symbol = " "
 
+[cpp]
+format = "[$symbol($version(-$name) )]($style)" # default prefixes "via "
+symbol = " "
+
 [crystal]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
+[daml]
+format = "[$symbol($version )]($style)" # default prefixes "via "
+
 [dart]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [deno]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
-
-[direnv]
-symbol = " "
 
 [directory]
 read_only = " 󰌾"
 
+[direnv]
+symbol = " "
+
 [docker_context]
+format = "[$symbol$context]($style) " # default prefixes "via "
 symbol = " "
 
 [dotnet]
+format = "[$symbol($version )(🎯 $tfm )]($style)" # default prefixes "via "
 symbol = " "
 
 [elixir]
+format = '[$symbol($version \(OTP $otp_version\) )]($style)' # default prefixes "via "
 symbol = " "
 
 [elm]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [erlang]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [fennel]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [fortran]
+format = "[$symbol($version(-$name) )]($style)" # default prefixes "via "
 symbol = " "
 
 [fossil_branch]
+format = "[$symbol$branch]($style) " # default prefixes "on "
 symbol = " "
 
 [gcloud]
+format = '[$symbol$account(@$domain)(\($region\))]($style) ' # default prefixes "on "
+disabled = true                                              # cloud indicators not needed
 symbol = "󱇶 "
 
-[gleam]
-symbol = " "
-
 [git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) ' # default prefixes "on "
 symbol = " "
 
 [git_commit]
 tag_symbol = '  '
 
+[gleam]
+format = "[$symbol($version )]($style)" # default prefixes "via "
+symbol = " "
+
 [golang]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [gradle]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [guix_shell]
+format = "[$symbol]($style) " # default prefixes "via "
 symbol = " "
 
 [haskell]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [haxe]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [helm]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [hg_branch]
+format = "[$symbol$branch(:$topic)]($style) " # default prefixes "on "
 symbol = " "
 
 [hostname]
+format = '[$ssh_symbol]($style)' # globe only over SSH; default adds hostname and "in "
 ssh_symbol = " "
 
 [java]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [julia]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [kotlin]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [kubernetes]
+format = '[$symbol$context( \($namespace\))]($style) ' # default appends "in "
 symbol = "󱃾 "
 
 [lua]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [maven]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [memory_usage]
+format = "$symbol[$ram( | $swap)]($style) " # default prefixes "via "
 symbol = "󰍛 "
 
 [meson]
+format = "[$symbol$project]($style) " # default prefixes "via "
 symbol = "󰔷 "
 
+[mise]
+format = "[$symbol$health]($style) " # default prefixes "on "
+
 [mojo]
+format = "[$symbol($version )]($style)" # default prefixes "with "
 symbol = "󰈸 "
 
 [nats]
@@ -151,24 +223,32 @@ symbol = " "
 symbol = "󰛳 "
 
 [nim]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [nix_shell]
+format = '[$symbol$state( \($name\))]($style) ' # default prefixes "via "
 symbol = " "
 
 [nodejs]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [ocaml]
+format = '[$symbol($version )(\($switch_indicator$switch_name\) )]($style)' # default prefixes "via "
 symbol = " "
 
 [odin]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = "󰟢 "
 
 [opa]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [openstack]
+format = '[$symbol$cloud(\($project\))]($style) ' # default prefixes "on "
+disabled = true                                   # cloud indicators not needed
 symbol = " "
 
 [os.symbols]
@@ -232,46 +312,64 @@ Windows = "󰍲 "
 Zorin = " "
 
 [package]
+format = "[$symbol$version]($style) " # default prefixes "is "
+disabled = true
 symbol = "󰏗 "
 
 [perl]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [php]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [pijul_channel]
+format = "[$symbol$channel]($style) " # default prefixes "on "
 symbol = " "
 
 [pixi]
+format = '[$symbol($version )(\($environment\) )]($style)' # default prefixes "via "
 symbol = "󰏗 "
 
 [pulumi]
+format = "[$symbol($username@)$stack]($style) " # default prefixes "via "
 symbol = " "
 
 [purescript]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [python]
-disabled = true   # built-in module reports the SYSTEM python3; replaced by [custom.uv_python] below
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)' # default prefixes "via "
+disabled = true                                                              # built-in module reports the SYSTEM python3; replaced by [custom.venv_python] below
 symbol = " "
 
+[quarto]
+format = "[$symbol($version )]($style)" # default prefixes "via "
+
 [raku]
+format = "[$symbol($version-$vm_version )]($style)" # default prefixes "via "
 symbol = "󱖊 "
 
 [red]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = "󱍼 "
 
 [rlang]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = "󰟔 "
 
 [ruby]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [rust]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = "󱘗 "
 
 [scala]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [shlvl]
@@ -281,40 +379,64 @@ symbol = "󰹍 "
 symbol = " "
 
 [solidity]
+format = "[$symbol($version)]($style)" # default prefixes "via "
 symbol = " "
 
 [spack]
+format = "[$symbol$environment]($style) " # default prefixes "via "
 symbol = " "
 
 [status]
 symbol = " "
 
 [sudo]
+format = "[$symbol]($style)" # default puts "as " before the symbol
 symbol = " "
 
 [swift]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
 [terraform]
+format = "[$symbol$workspace]($style) " # default prefixes "via "
 symbol = " "
 
-[vlang]
-symbol = " "
+[time]
+format = "[$time]($style) " # default prefixes "at "
 
 [typst]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
+[username]
+format = "[$user]($style) " # default appends "in "
+disabled = true             # shown over SSH by default; not useful here
+
 [vagrant]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
+[vlang]
+format = "[$symbol($version )]($style)" # default prefixes "via "
+symbol = " "
+
 [xmake]
+format = "[$symbol($version )]($style)" # default prefixes "via "
 symbol = " "
 
+[zig]
+format = "[$symbol($version )]($style)" # default prefixes "via "
+symbol = " "
+
 # Python version uv resolves for the current dir, not the system python3. Uses
-# `uv python find --show-version`: the version uv would use (from .python-version /
-# requires-python, or an existing .venv) WITHOUT creating or syncing a venv — so it
-# works even before the first `uv sync`. The whole format is wrapped in ( ) so it
-# renders nothing when uv can't resolve a version. Shows via the default $custom slot.
+# `uv python find --show-version`, which picks the first match of:
+#   1. an activated venv ($VIRTUAL_ENV)
+#   2. a .venv in the current dir or any parent
+#   3. uv-managed Pythons, then Pythons on PATH, filtered by .python-version /
+#      requires-python when present
+# It does this WITHOUT creating or syncing a venv, so it works even before the
+# first `uv sync`. The whole format is wrapped in ( ) so it renders nothing when
+# uv can't resolve a version. Shows in the default $custom slot.
 [custom.venv_python]
 description = "Python version uv resolves for the current project"
 detect_files = ["pyproject.toml", "uv.lock", ".python-version"]
@@ -323,8 +445,5 @@ detect_extensions = ["py"]
 shell = ["sh"]
 command = "uv python find --show-version --no-python-downloads 2>/dev/null"
 symbol = " "
-format = '(via [${symbol}v$output \(uv\) ]($style))'
+format = '([${symbol}v$output \(uv\) ]($style))'                            # no "via " prefix, like the built-in modules
 style = "yellow bold"
-
-[zig]
-symbol = " "

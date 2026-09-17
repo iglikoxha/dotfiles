@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-terraform,
   tmux-config,
   username,
   ...
@@ -52,11 +53,8 @@
     rustc # cargo shells out to rustc; nixpkgs ships them as separate pkgs
 
     # infrastructure
-    terraform # IaC CLI (unfree: BUSL — allowlisted in flake.nix)
+    pkgs-terraform.terraform # IaC CLI, pinned in flake.nix so flake updates don't rebuild it
     awscli2 # `aws` CLI v2
-
-    # ai
-    claude-code # the `claude` CLI
   ];
 
   programs.git = {
@@ -72,9 +70,12 @@
   # provides the tmux binary (and git, used by the bootstrap).
   xdg.configFile."tmux/tmux.conf".source = "${tmux-config}/tmux.conf";
 
-  # starship prompt — installs starship + wires bash init.
-  # Config is the upstream "Nerd Font Symbols" preset, kept as a verbatim
-  # toml file (too many glyphs to sanely express as nix attrs).
+  # starship prompt — installs starship only. Bash isn't managed by home-manager,
+  # so the `starship init bash` line lives in ~/.bashrc (see README step 4).
+  # Config started from the upstream "Nerd Font Symbols" preset and is kept as a
+  # toml file (too many glyphs to sanely express as nix attrs). Customized on top:
+  # connector words ("on", "via", ...) stripped, clouds/username/package disabled,
+  # uv-aware python, and the Claude Code status line profile.
   programs.starship.enable = true;
   xdg.configFile."starship.toml".source = ./starship.toml;
 

@@ -1,6 +1,6 @@
 # dotfiles
 
-Nix [home-manager](https://github.com/nix-community/home-manager) config: CLI tools, git, starship prompt, tmux (config pulled from [iglikoxha/tmux](https://github.com/iglikoxha/tmux) as a flake input — TPM bootstraps itself on first tmux launch).
+Nix [home-manager](https://github.com/nix-community/home-manager) config: CLI tools, git, starship prompt (also used as the Claude Code status line), language toolchains (node, python, rust, C), Terraform (pinned, see below), AWS CLI, tmux (config pulled from [iglikoxha/tmux](https://github.com/iglikoxha/tmux) as a flake input — TPM bootstraps itself on first tmux launch).
 
 ## New machine setup
 
@@ -63,9 +63,17 @@ if command -v starship >/dev/null 2>&1; then
 fi
 ```
 
-### 5. Claude Code status line
+### 5. Claude Code
 
-The `[statusline]` section in `starship.toml` is managed here, but `~/.claude/settings.json` isn't. Point Claude Code at starship by adding:
+Claude Code isn't managed by Nix, so it can auto-update. Install it with the native installer:
+
+```sh
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+It installs to `~/.local/bin/claude`. If `claude` isn't found afterward, start a new login shell so `~/.profile` adds `~/.local/bin` to `PATH`.
+
+The `claude-code` profile under `[profiles]` in `starship.toml` provides the status line, but `~/.claude/settings.json` isn't managed here. Point Claude Code at starship by adding:
 
 ```json
 "statusLine": {
@@ -83,7 +91,20 @@ fnm install 24
 fnm default 24
 ```
 
+## Terraform is pinned
+
+Terraform comes from its own nixpkgs input in `flake.nix`, locked to a single commit. Its BUSL license is unfree, so the NixOS binary cache doesn't build it. Any nixpkgs update that changes Terraform or one of its dependencies, such as the Go toolchain, would recompile it locally, which is slow. Because the input points at a commit hash, `nix flake update` leaves it alone and everything else updates as usual.
+
+To upgrade Terraform to whatever the rest of the flake is on:
+
+1. Run `nix flake update`.
+2. In `flake.lock`, copy the `rev` value under the `nixpkgs` node.
+3. Paste it over the commit hash in the `nixpkgs-terraform` URL in `flake.nix`.
+4. Run `home-manager switch --flake ~/dotfiles`. Expect Terraform to build from source once.
+
+Check the installed version with `terraform version`.
+
 ## Not managed here
 
 - **Nerd Font** — the starship preset needs one, set in the terminal emulator (on WSL: Windows Terminal's font setting; on native Linux install one, e.g. from [nerdfonts.com](https://www.nerdfonts.com)).
-- **Docker** (native Linux) — the daemon is a system service, install the engine per the [official guide](https://docs.docker.com/engine/install/ubuntu/) and add yourself to the docker group (`sudo usermod -aG docker $USER`)
+- **Docker** (native Linux) — the daemon is a system service, install the engine per the [official guide](https://docs.docker.com/engine/install/ubuntu/) and add yourself to the docker group (`sudo usermod -aG docker $USER`).
