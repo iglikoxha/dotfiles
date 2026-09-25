@@ -70,6 +70,28 @@
   # provides the tmux binary (and git, used by the bootstrap).
   xdg.configFile."tmux/tmux.conf".source = "${tmux-config}/tmux.conf";
 
+  # Start the tmux server with the user manager: at boot when linger is enabled
+  # (README step 7), otherwise at first login. The config's restore-on-start then
+  # brings back every saved session; resurrect drops the placeholder session "0"
+  # if it isn't in the save. Attach with `tmux a`.
+  # Not named tmux.service: tmux-continuum runs `systemctl --user disable
+  # tmux.service` on every tmux start (its own @continuum-boot is off), which
+  # would delete this unit mid-start.
+  systemd.user.services.tmux-server = {
+    Unit.Description = "tmux server (restores the last resurrect save)";
+    Service = {
+      Type = "forking";
+      # the user manager's PATH has neither the Nix profile (tmux, git for the TPM
+      # bootstrap) nor ~/.local/bin (claude, relaunched in restored panes)
+      Environment = "PATH=${config.home.homeDirectory}/.local/bin:${config.home.profileDirectory}/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin";
+      # skip if a server is already running (started by hand, or on
+      # `home-manager switch`), rather than adding a stray session to it
+      ExecCondition = "/bin/sh -c '! tmux has-session 2>/dev/null'";
+      ExecStart = "${pkgs.tmux}/bin/tmux new-session -d";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
   # starship prompt — installs starship only. Bash isn't managed by home-manager,
   # so the `starship init bash` line lives in ~/.bashrc (see README step 4).
   # Config started from the upstream "Nerd Font Symbols" preset and is kept as a

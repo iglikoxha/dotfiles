@@ -91,6 +91,16 @@ fnm install 24
 fnm default 24
 ```
 
+### 7. Start tmux at boot (native Linux)
+
+A `tmux-server` systemd user service starts the tmux server, and the tmux config restores the last saved sessions when the server starts (tmux-resurrect, saved every 15 minutes by tmux-continuum). User services run under the systemd user manager (`user@<uid>.service`), which without linger only runs while you're logged in. Enable linger once per machine so the manager, and with it tmux, starts at boot and keeps running independently of your logins:
+
+```sh
+sudo loginctl enable-linger $USER
+```
+
+Without linger, tmux starts at your first login after boot instead. Either way, attach with `tmux a`.
+
 ## Terraform is pinned
 
 Terraform comes from its own nixpkgs input in `flake.nix`, locked to a single commit. Its BUSL license is unfree, so the NixOS binary cache doesn't build it. Any nixpkgs update that changes Terraform or one of its dependencies, such as the Go toolchain, would recompile it locally, which is slow. Because the input points at a commit hash, `nix flake update` leaves it alone and everything else updates as usual.
