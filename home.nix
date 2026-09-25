@@ -51,6 +51,8 @@
     # rust toolchain
     cargo
     rustc # cargo shells out to rustc; nixpkgs ships them as separate pkgs
+    rustfmt # provides cargo-fmt, which `cargo fmt` runs
+    clippy # provides cargo-clippy, which `cargo clippy` runs
 
     # infrastructure
     pkgs-terraform.terraform # IaC CLI, pinned in flake.nix so flake updates don't rebuild it
