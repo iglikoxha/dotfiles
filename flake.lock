@@ -63,11 +63,11 @@
     "tmux-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1790339158,
-        "narHash": "sha256-baefBuS25fjiFccK7Xog4eZ/84G9wH1LlMm8ndkNcU4=",
+        "lastModified": 1790791934,
+        "narHash": "sha256-hxTEpRzajGvmvlNioedBoB+gBzblBHPpm81Nf7v+5Aw=",
         "owner": "iglikoxha",
         "repo": "tmux",
-        "rev": "7c8e3f491565ab66d35cdbaa2a6818408d45e5cc",
+        "rev": "632408509360c062d797dbb3764fb8ee07a1666a",
         "type": "github"
       },
       "original": {
