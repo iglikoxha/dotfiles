@@ -26,6 +26,7 @@
     fd # fast find (telescope's file finder)
     bat # cat with syntax highlighting
     fzf # fuzzy finder
+    jq # JSON processor
 
     # editor (LazyVim)
     neovim
