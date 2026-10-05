@@ -82,13 +82,28 @@ The `claude-code` profile under `[profiles]` in `starship.toml` provides the sta
 }
 ```
 
-### 6. Install a node version
+### 6. Install language toolchains (Python, Node, Rust)
+
+uv downloads Pythons on demand (`uv run`/`uv sync` fetch whatever `.python-version` / `requires-python` asks for), so nothing is required up front. To pre-install one so new projects work offline:
+
+```sh
+uv python install 3.14
+```
+
+This links a versioned `python3.14` into `~/.local/bin` but leaves bare `python3` to Nix's interpreter, which Mason relies on for pip.
 
 fnm ships without any node installed — `node` won't be on PATH until you install one and make it the default (used whenever a project has no `.nvmrc`):
 
 ```sh
 fnm install 24
 fnm default 24
+```
+
+rustup likewise ships without a toolchain — `cargo`/`rustc` are proxies that error until a default is set (used whenever a project has no `rust-toolchain.toml`). Add `rust-src` + `rust-analyzer` so the LSP matches the compiler (uninstall Mason's rust-analyzer in nvim if present, it shadows this one):
+
+```sh
+rustup default stable
+rustup component add rust-src rust-analyzer
 ```
 
 ### 7. Start tmux at boot (native Linux)

@@ -47,13 +47,10 @@
 
     # python toolchain
     (python3.withPackages (ps: [ ps.pip ])) # interpreter + pip on PATH (Mason needs pip; Nix omits it by default)
-    uv # python package/venv manager (used for actual python work)
+    uv # python version + package/venv manager (used for actual python work; reads .python-version)
 
     # rust toolchain
-    cargo
-    rustc # cargo shells out to rustc; nixpkgs ships them as separate pkgs
-    rustfmt # provides cargo-fmt, which `cargo fmt` runs
-    clippy # provides cargo-clippy, which `cargo clippy` runs
+    rustup # toolchain manager (reads rust-toolchain.toml); provides cargo/rustc/rust-analyzer as proxies
 
     # infrastructure
     pkgs-terraform.terraform # IaC CLI, pinned in flake.nix so flake updates don't rebuild it
