@@ -1,6 +1,6 @@
 # dotfiles
 
-Nix [home-manager](https://github.com/nix-community/home-manager) config: CLI tools, git, starship prompt (also used as the Claude Code status line), language toolchains (node, python, rust, C), Terraform (pinned, see below), AWS CLI, tmux (config pulled from [iglikoxha/tmux](https://github.com/iglikoxha/tmux) as a flake input — TPM bootstraps itself on first tmux launch).
+Nix [home-manager](https://github.com/nix-community/home-manager) config: CLI tools, git, starship prompt (also used as the Claude Code status line), language toolchains (node, bun, python, rust, C), Terraform (pinned, see below), AWS CLI, tmux (config pulled from [iglikoxha/tmux](https://github.com/iglikoxha/tmux) as a flake input — TPM bootstraps itself on first tmux launch).
 
 ## New machine setup
 

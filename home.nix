@@ -44,6 +44,7 @@
     # node toolchain
     fnm # runtime node version manager (nvm-style: fnm install/use, reads .nvmrc)
     pnpm # node package manager (self-contained; project scripts still run on fnm's node)
+    bun # JS runtime + package manager (single version, moves with `nix flake update`)
 
     # python toolchain
     (python3.withPackages (ps: [ ps.pip ])) # interpreter + pip on PATH (Mason needs pip; Nix omits it by default)
@@ -51,6 +52,10 @@
 
     # rust toolchain
     rustup # toolchain manager (reads rust-toolchain.toml); provides cargo/rustc/rust-analyzer as proxies
+
+    # nix tooling (LazyVim's nix extra runs these but doesn't install them)
+    nixfmt # official Nix formatter
+    statix # Nix linter
 
     # infrastructure
     pkgs-terraform.terraform # IaC CLI, pinned in flake.nix so flake updates don't rebuild it
